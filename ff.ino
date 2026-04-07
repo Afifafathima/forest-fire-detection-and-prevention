@@ -4,20 +4,20 @@
 #include "DHT.h"
 
 // -------------------- WiFi --------------------
-#define WIFI_SSID "Afifa"
-#define WIFI_PASSWORD "1234567@A"
+#define WIFI_SSID "Your_wifi_name"
+#define WIFI_PASSWORD "Your_wifi_password"
 
 // -------------------- Firebase --------------------
-#define API_KEY "AIzaSyDGSxcGhjB7a7y0JZbC5kd9SK47vLC2jrw"
-#define DATABASE_URL "https://forest-fire-05-default-rtdb.firebaseio.com/"
+#define API_KEY "your_api_key_from_firebase"
+#define DATABASE_URL "Your-daatbase-url"
 
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
 // -------------------- Telegram --------------------
-String botToken = "8329668490:AAG0rpMMkfwyf0cn-mrtP6JyognXUw2_T0o";  // 🔹 Your bot token
-String chatID   = "-1003113957027";  // 🔹 Your group chat ID (-100xxxxxxxxxx)
+String botToken = "telegram_bot_token";  // 🔹 Your bot token
+String chatID   = "telegram_groupchat_id";  // 🔹 Your group chat ID (-100xxxxxxxxxx)
 
 // -------------------- Sensors --------------------
 #define DHTPIN 4
@@ -32,8 +32,8 @@ DHT dht(DHTPIN, DHTTYPE);
 #define BUZZER_PIN 18
 
 // -------------------- Location --------------------
-String latitude = "13.0123919";
-String longitude = "77.7042954";
+String latitude = "check from google maps";
+String longitude = "check from google maps";
 
 // -------------------- Timers --------------------
 unsigned long lastSend = 0;
