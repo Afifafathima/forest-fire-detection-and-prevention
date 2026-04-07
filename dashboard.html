@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forest Fire Detection Dashboard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f9f9;
+      color: #333;
+    }
+    h1 {
+      color: #00695c;
+    }
+    .card {
+      display: inline-block;
+      background: #fff;
+      padding: 20px;
+      margin: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 220px;
+    }
+    .alert {
+      background: #ff4d4d;
+      color: white;
+      padding: 15px;
+      margin-top: 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌲 Forest Fire Detection Dashboard</h1>
+
+  <div class="card">
+    <h3>🌡 Temperature</h3>
+    <p id="temp">-- °C</p>
+  </div>
+
+  <div class="card">
+    <h3>💧 Humidity</h3>
+    <p id="humidity">-- %</p>
+  </div>
+
+  <div class="card">
+    <h3>🔥 Flame</h3>
+    <p id="flame">--</p>
+  </div>
+
+  <div class="card">
+    <h3>💨 Gas</h3>
+    <p id="gas">-- ppm</p>
+  </div>
+
+  <div class="card">
+    <h3>🚨 Fire Status</h3>
+    <p id="fireStatus">--</p>
+  </div>
+
+  <div class="alert" id="alertBox">⚠️ DANGER: Fire Alert Triggered!</div>
+
+  <script type="module">
+    // Firebase Config (use your own values)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGSxcGhjB7a7y0JZbC5kd9SK47vLC2jrw",
+      authDomain: "forest-fire-05.firebaseapp.com",
+      databaseURL: "https://forest-fire-05-default-rtdb.firebaseio.com",
+      projectId: "forest-fire-05",
+      storageBucket: "forest-fire-05.firebasestorage.app",
+      messagingSenderId: "1025510316308",
+      appId: "1:1025510316308:web:6ef77637d65367617e8a01",
+      measurementId: "G-RPJWL0YEJF"
+    };
+
+    // Initialize Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Reference to /sensors
+    const sensorsRef = ref(db, "sensors");
+
+    // Listen for changes
+    onValue(sensorsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+
+      document.getElementById("temp").innerText = data.temperature + " °C";
+      document.getElementById("humidity").innerText = data.humidity + " %";
+      document.getElementById("flame").innerText = data.flame==1 ? "Safe":"🔥 Detected";
+      document.getElementById("gas").innerText = data.gas + " ppm";
+      document.getElementById("fireStatus").innerText = data.fireStatus;
+
+      // Show/hide alert
+      if (data.fireAlert) {
+        document.getElementById("alertBox").style.display = "block";
+        document.getElementById("alertBox").innerText = data.fireStatus;
+      } else {
+        document.getElementById("alertBox").style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
